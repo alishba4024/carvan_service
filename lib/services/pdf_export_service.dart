@@ -776,6 +776,7 @@
 //     );
 //   }
 // }
+
 import 'dart:typed_data';
 import 'package:data/models/service_form_model.dart';
 import 'package:flutter/services.dart';
@@ -863,6 +864,8 @@ class PdfExportService {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              _buildHeader(formData, logoImage),
+              // pw.SizedBox(width: 10),
               pw.Row(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
@@ -872,7 +875,7 @@ class PdfExportService {
                 ],
               ),
               _buildServiceInformationSection(formData),
-              _buildPageFooter(1),
+              // _buildPageFooter(1),
             ],
           );
         },
@@ -897,7 +900,7 @@ class PdfExportService {
               pw.SizedBox(height: 10),
               _buildSignaturesSection(formData),
               pw.SizedBox(height: 10),
-              _buildPageFooter(2), // Same footer style but with page number 2
+              // _buildPageFooter(2), // Same footer style but with page number 2
             ],
           );
         },
@@ -917,6 +920,208 @@ class PdfExportService {
     }
   }
 
+  // static pw.Widget _buildHeader(
+  //   ServiceFormModel formData,
+  //   pw.ImageProvider? logoImage,
+  // ) {
+  //   return pw.Column(
+  //     crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //     children: [
+  //       // Logo and Title Row
+  //       pw.Row(
+  //         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           // Logo
+  //           if (logoImage != null)
+  //             pw.Container(width: 100, height: 50, child: pw.Image(logoImage))
+  //           else
+  //             pw.Container(
+  //               width: 100,
+  //               height: 50,
+  //               child: pw.Text('No Logo', style: pw.TextStyle(fontSize: 9)),
+  //             ),
+
+  //           // Title
+  //           pw.Expanded(
+  //             child: pw.Column(
+  //               children: [
+  //                 pw.Text(
+  //                   'Motorhome Annual Habitation Service Check Sheet',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 16,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                   textAlign: pw.TextAlign.center,
+  //                 ),
+  //                 pw.SizedBox(height: 8),
+  //                 pw.Text(
+  //                   'All work must be carried out in accordance with the latest AWS Standard Working Procedures',
+  //                   style: pw.TextStyle(fontSize: 8),
+  //                   textAlign: pw.TextAlign.center,
+  //                 ),
+  //                 pw.SizedBox(height: 5),
+  //                 pw.Text(
+  //                   'Service Technician: Please ensure that every question is answered correctly using: P (pass), F (fail), N/A (not applicable) & R (rectified)',
+  //                   style: pw.TextStyle(fontSize: 8),
+  //                   textAlign: pw.TextAlign.center,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       pw.SizedBox(height: 10),
+
+  //       // Workshop info
+  //       pw.Row(
+  //         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           pw.Expanded(
+  //             child: pw.Column(
+  //               crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //               children: [
+  //                 pw.Text(
+  //                   'Approved Workshop Name & Address',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 10,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                 ),
+  //                 pw.Container(
+  //                   height: 15,
+  //                   // decoration: pw.BoxDecoration(
+  //                   //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+  //                   // ),
+  //                   child: pw.Padding(
+  //                     padding: const pw.EdgeInsets.only(left: 4),
+  //                     child: pw.Text(
+  //                       formData.workshopName.isNotEmpty
+  //                           ? formData.workshopName
+  //                           : 'Not provided',
+  //                       style: pw.TextStyle(fontSize: 9),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           pw.SizedBox(width: 20),
+  //           pw.Expanded(
+  //             child: pw.Column(
+  //               crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //               children: [
+  //                 pw.Text(
+  //                   'Job Reference/Date',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 10,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                 ),
+  //                 pw.Container(
+  //                   height: 15,
+  //                   // decoration: pw.BoxDecoration(
+  //                   //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+  //                   // ),
+  //                   child: pw.Padding(
+  //                     padding: const pw.EdgeInsets.only(left: 4),
+  //                     child: pw.Text(
+  //                       formData.jobReference.isNotEmpty
+  //                           ? formData.jobReference
+  //                           : 'Not provided',
+  //                       style: pw.TextStyle(fontSize: 9),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       pw.SizedBox(height: 8),
+
+  //       // Customer info table
+  //       pw.Table(
+  //         border: pw.TableBorder.all(width: 0.5),
+  //         columnWidths: {
+  //           0: const pw.FlexColumnWidth(1),
+  //           1: const pw.FlexColumnWidth(1),
+  //           2: const pw.FlexColumnWidth(1),
+  //         },
+  //         children: [
+  //           pw.TableRow(
+  //             decoration: pw.BoxDecoration(color: PdfColors.grey300),
+  //             children: [
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   'Customer Name',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 9,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ),
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   'Make & Model',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 9,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ),
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   'CRIS/Vin Number',
+  //                   style: pw.TextStyle(
+  //                     fontSize: 9,
+  //                     fontWeight: pw.FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           pw.TableRow(
+  //             children: [
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   formData.customerName.isNotEmpty
+  //                       ? formData.customerName
+  //                       : 'Not provided',
+  //                   style: pw.TextStyle(fontSize: 9),
+  //                 ),
+  //               ),
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   formData.makeModel.isNotEmpty
+  //                       ? formData.makeModel
+  //                       : 'Not provided',
+  //                   style: pw.TextStyle(fontSize: 9),
+  //                 ),
+  //               ),
+  //               pw.Padding(
+  //                 padding: const pw.EdgeInsets.all(4.0),
+  //                 child: pw.Text(
+  //                   formData.crisVinNumber.isNotEmpty
+  //                       ? formData.crisVinNumber
+  //                       : 'Not provided',
+  //                   style: pw.TextStyle(fontSize: 9),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //       pw.SizedBox(height: 10),
+  //       pw.Divider(thickness: 1),
+  //     ],
+  //   );
+  // }
+
   static pw.Widget _buildHeader(
     ServiceFormModel formData,
     pw.ImageProvider? logoImage,
@@ -924,9 +1129,10 @@ class PdfExportService {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
-        // Logo and Title Row
+        // Logo, Title, and Workshop Info Row
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             // Logo
             if (logoImage != null)
@@ -935,105 +1141,80 @@ class PdfExportService {
               pw.Container(
                 width: 100,
                 height: 50,
-                child: pw.Text('No Logo', style: pw.TextStyle(fontSize: 9)),
+                child: pw.Text('LOGO', style: pw.TextStyle(fontSize: 9)),
               ),
 
+            pw.SizedBox(width: 15),
             // Title
             pw.Expanded(
               child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    'Tourer Annual Habitation Service Check Sheet',
+                    'Motorhome Annual Habitation Service Check Sheet',
                     style: pw.TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: pw.FontWeight.bold,
                     ),
-                    textAlign: pw.TextAlign.center,
+                    textAlign: pw.TextAlign.start,
                   ),
-                  pw.SizedBox(height: 8),
+                  pw.SizedBox(height: 6),
                   pw.Text(
                     'All work must be carried out in accordance with the latest AWS Standard Working Procedures',
-                    style: pw.TextStyle(fontSize: 9),
-                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontSize: 7),
+                    textAlign: pw.TextAlign.start,
+                  ),
+                  pw.SizedBox(height: 5),
+                  pw.Text(
+                    'Service Technician: Please ensure that every question is answered correctly using: P (pass), F (fail), N/A (not applicable) & R (rectified)',
+                    style: pw.TextStyle(fontSize: 7),
+                    textAlign: pw.TextAlign.start,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-        pw.SizedBox(height: 8),
-        pw.Text(
-          'Service Technician: Please ensure that every question is answered correctly using: P (pass), F (fail), N/A (not applicable) & R (rectified)',
-          style: pw.TextStyle(fontSize: 9),
-        ),
-        pw.SizedBox(height: 10),
 
-        // Workshop info
-        pw.Row(
-          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-          children: [
-            pw.Expanded(
+            pw.SizedBox(width: 15),
+
+            // Workshop Info - Right side
+            pw.Container(
+              width: 120,
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
                     'Approved Workshop Name & Address',
                     style: pw.TextStyle(
-                      fontSize: 10,
+                      fontSize: 8,
                       fontWeight: pw.FontWeight.bold,
                     ),
                   ),
-                  pw.Container(
-                    height: 15,
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 0.5),
-                    ),
-                    child: pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 4),
-                      child: pw.Text(
-                        formData.workshopName.isNotEmpty
-                            ? formData.workshopName
-                            : 'Not provided',
-                        style: pw.TextStyle(fontSize: 9),
-                      ),
-                    ),
+                  pw.SizedBox(height: 2),
+                  pw.Text(
+                    formData.workshopName.isNotEmpty
+                        ? formData.workshopName
+                        : 'Not provided',
+                    style: pw.TextStyle(fontSize: 7),
                   ),
-                ],
-              ),
-            ),
-            pw.SizedBox(width: 20),
-            pw.Expanded(
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
+                  pw.SizedBox(height: 8),
                   pw.Text(
                     'Job Reference/Date',
                     style: pw.TextStyle(
-                      fontSize: 10,
+                      fontSize: 8,
                       fontWeight: pw.FontWeight.bold,
                     ),
                   ),
-                  pw.Container(
-                    height: 15,
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 0.5),
-                    ),
-                    child: pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 4),
-                      child: pw.Text(
-                        formData.jobReference.isNotEmpty
-                            ? formData.jobReference
-                            : 'Not provided',
-                        style: pw.TextStyle(fontSize: 9),
-                      ),
-                    ),
+                  pw.SizedBox(height: 2),
+                  pw.Text(
+                    '${formData.jobReference.isNotEmpty ? formData.jobReference : 'Not provided'} / ${DateFormat('yyyy-MM-dd').format(formData.serviceDate ?? DateTime.now())}',
+                    style: pw.TextStyle(fontSize: 7),
                   ),
                 ],
               ),
             ),
           ],
         ),
-        pw.SizedBox(height: 8),
+        pw.SizedBox(height: 10),
 
         // Customer info table
         pw.Table(
@@ -1138,9 +1319,9 @@ class PdfExportService {
         pw.SizedBox(height: 8),
         pw.Container(
           height: 15,
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(color: PdfColors.black, width: 0.5),
-          ),
+          // decoration: pw.BoxDecoration(
+          //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+          // ),
           child: pw.Padding(
             padding: const pw.EdgeInsets.only(left: 4),
             child: pw.Text(
@@ -1165,9 +1346,9 @@ class PdfExportService {
         pw.SizedBox(height: 8),
         pw.Container(
           height: 15,
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(color: PdfColors.black, width: 0.5),
-          ),
+          // decoration: pw.BoxDecoration(
+          //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+          // ),
           child: pw.Padding(
             padding: const pw.EdgeInsets.only(left: 4),
             child: pw.Text(
@@ -1245,9 +1426,9 @@ class PdfExportService {
                   ),
                   pw.Container(
                     height: 15,
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 0.5),
-                    ),
+                    // decoration: pw.BoxDecoration(
+                    //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+                    // ),
                     child: pw.Padding(
                       padding: const pw.EdgeInsets.only(left: 4),
                       child: pw.Text(
@@ -1282,9 +1463,9 @@ class PdfExportService {
                   ),
                   pw.Container(
                     height: 15,
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 0.5),
-                    ),
+                    // decoration: pw.BoxDecoration(
+                    //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+                    // ),
                     child: pw.Padding(
                       padding: const pw.EdgeInsets.only(left: 4),
                       child: pw.Text(
@@ -1331,7 +1512,7 @@ class PdfExportService {
             4: const pw.FlexColumnWidth(0.5),
           },
           children: [
-            // Header row
+            // Header row - CENTERED
             pw.TableRow(
               decoration: pw.BoxDecoration(color: PdfColors.grey300),
               children: [
@@ -1347,47 +1528,55 @@ class PdfExportService {
                 ),
                 pw.Padding(
                   padding: const pw.EdgeInsets.all(4.0),
-                  child: pw.Text(
-                    'P',
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      fontWeight: pw.FontWeight.bold,
+                  child: pw.Center(
+                    child: pw.Text(
+                      'P',
+                      style: pw.TextStyle(
+                        fontSize: 9,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 pw.Padding(
                   padding: const pw.EdgeInsets.all(4.0),
-                  child: pw.Text(
-                    'F',
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      fontWeight: pw.FontWeight.bold,
+                  child: pw.Center(
+                    child: pw.Text(
+                      'F',
+                      style: pw.TextStyle(
+                        fontSize: 9,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 pw.Padding(
                   padding: const pw.EdgeInsets.all(4.0),
-                  child: pw.Text(
-                    'N/A',
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      fontWeight: pw.FontWeight.bold,
+                  child: pw.Center(
+                    child: pw.Text(
+                      'N/A',
+                      style: pw.TextStyle(
+                        fontSize: 9,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 pw.Padding(
                   padding: const pw.EdgeInsets.all(4.0),
-                  child: pw.Text(
-                    'R',
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      fontWeight: pw.FontWeight.bold,
+                  child: pw.Center(
+                    child: pw.Text(
+                      'R',
+                      style: pw.TextStyle(
+                        fontSize: 9,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            // Item rows
+            // Item rows - CENTERED
             for (var item in items)
               pw.TableRow(
                 children: [
@@ -1395,10 +1584,31 @@ class PdfExportService {
                     padding: const pw.EdgeInsets.all(4.0),
                     child: pw.Text(item, style: pw.TextStyle(fontSize: 9)),
                   ),
-                  _buildCheckboxCell(formData[item] == 'P'),
-                  _buildCheckboxCell(formData[item] == 'F'),
-                  _buildCheckboxCell(formData[item] == 'N/A'),
-                  _buildCheckboxCell(formData[item] == 'R'),
+                  // Centered checkbox cells
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4.0),
+                    child: pw.Center(
+                      child: _buildCheckboxCell(formData[item] == 'P'),
+                    ),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4.0),
+                    child: pw.Center(
+                      child: _buildCheckboxCell(formData[item] == 'F'),
+                    ),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4.0),
+                    child: pw.Center(
+                      child: _buildCheckboxCell(formData[item] == 'N/A'),
+                    ),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4.0),
+                    child: pw.Center(
+                      child: _buildCheckboxCell(formData[item] == 'R'),
+                    ),
+                  ),
                 ],
               ),
           ],
@@ -1410,6 +1620,8 @@ class PdfExportService {
 
   static pw.Widget _buildCheckboxCell(bool isChecked) {
     return pw.Container(
+      width: 12,
+      height: 12,
       alignment: pw.Alignment.center,
       child: pw.Container(
         width: 10,
@@ -1484,9 +1696,9 @@ class PdfExportService {
         // Workshop info
         pw.Container(
           height: 15,
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(color: PdfColors.black, width: 0.5),
-          ),
+          // decoration: pw.BoxDecoration(
+          //   border: pw.Border.all(color: PdfColors.black, width: 0.5),
+          // ),
           child: pw.Padding(
             padding: const pw.EdgeInsets.only(left: 4),
             child: pw.Text(
@@ -1613,11 +1825,11 @@ class PdfExportService {
             ),
           ],
         ),
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 15; i++)
           pw.TableRow(
             children: [
               pw.Container(
-                height: 20,
+                height: 15,
                 child: pw.Padding(
                   padding: const pw.EdgeInsets.all(4.0),
                   child: pw.Text(
@@ -1626,12 +1838,12 @@ class PdfExportService {
                         : i == 0
                         ? 'No service information provided'
                         : ' ',
-                    style: pw.TextStyle(fontSize: 9),
+                    style: pw.TextStyle(fontSize: 8),
                   ),
                 ),
               ),
               pw.Container(
-                height: 20,
+                height: 15,
                 child: pw.Container(), // Empty checkbox area
               ),
             ],

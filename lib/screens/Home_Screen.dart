@@ -219,8 +219,13 @@
 //   }
 // }
 
+import 'package:data/screens/Settings.dart';
+import 'package:data/screens/engine_vehicle_service_form.dart';
 import 'package:data/screens/main_form_screen.dart';
+import 'package:data/screens/safety_inspection_form.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -307,16 +312,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(width: 11),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.settings,
-                    color: Color(0xff173EA6),
-                    size: 20,
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => Settings()); // Navigate to settings screen
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.settings,
+                      color: Color(0xff173EA6),
+                      size: 20,
+                    ),
                   ),
                 ),
               ],
@@ -416,8 +426,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       builder: (context) => MainFormScreen(),
                                     ),
                                   );
-                                } else {
-                                  // Future actions for other cards
+                                } else if (index == 5) {
+                                  // Engine / Vehicle Service card (6th card, index 5)
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              EngineVehicleServiceForm(),
+                                    ),
+                                  );
+                                } else if (index == 3) {
+                                  // Engine / Vehicle Service card (6th card, index 5)
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => SafetyInspectionForm(),
+                                    ),
+                                  );
                                 }
                               },
                               icon: const Icon(

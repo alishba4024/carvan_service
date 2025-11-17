@@ -1448,25 +1448,41 @@ class _MainFormScreenState extends State<MainFormScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 30),
-              child: Center(
-                child: Container(
-                  width: isSmallScreen ? 170 : 220,
-                  height: isSmallScreen ? 70 : 80,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      );
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Back Button
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                    onPressed: () {
+                      Get.back();
                     },
                   ),
-                ),
+
+                  const Spacer(),
+
+                  // Logo
+                  Container(
+                    width: isSmallScreen ? 170 : 220,
+                    height: isSmallScreen ? 70 : 80,
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  const Spacer(),
+                ],
               ),
             ),
 
